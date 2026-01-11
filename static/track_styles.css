@@ -1,0 +1,209 @@
+:root {
+    --bg-deep: #050b1a;
+    --bg-glow: #0a192f;
+    --accent: #64ffda;
+    --text-main: #e6f1ff;
+    --text-dim: #8892b0;
+    --card-bg: rgba(17, 34, 64, 0.7);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at top, var(--bg-glow), var(--bg-deep));
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Night Sky & Shooting Stars Logic */
+.night-sky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: shooting 5s linear infinite;
+}
+
+.star:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+.star:nth-child(2) { top: 30%; left: 50%; animation-delay: 2s; }
+.star:nth-child(3) { top: 50%; left: 80%; animation-delay: 4s; }
+.star:nth-child(4) { top: 15%; left: 70%; animation-delay: 1.5s; }
+
+@keyframes shooting {
+    0% { transform: translateX(0) translateY(0) scale(1); opacity: 1; }
+    20% { transform: translateX(300px) translateY(300px) scale(0); opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* Layout Containers */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+header { text-align: center; margin-bottom: 50px; }
+h1 { font-size: 3rem; margin: 0; letter-spacing: -1px; }
+.dot { color: var(--accent); }
+.subtitle { color: var(--text-dim); }
+
+/* Statics Section */
+.Statics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+.stat-value { font-size: 2.5rem; font-weight: 600; color: var(--accent); margin: 10px 0; }
+
+/* Utils Section */
+.Utils {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.search-bar {
+    flex-grow: 1;
+    background: var(--bg-deep);
+    border: 1px solid var(--text-dim);
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+}
+
+button {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-add { background: var(--accent); color: var(--bg-deep); }
+.btn-export { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+
+/* Sheet Section (Kanban Pipeline) */
+.Sheet {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.pipeline-column h2 { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 20px; }
+
+.job-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--text-dim);
+}
+
+.job-card.active { border-left-color: var(--accent); box-shadow: 0 0 15px rgba(100, 255, 218, 0.1); }
+.job-card.ghosted { opacity: 0.6; }
+
+.tag {
+    background: rgba(100, 255, 218, 0.1);
+    color: var(--accent);
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+
+/* Table Layout Logic */
+.sheet-wrapper {
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    backdrop-filter: blur(10px);
+    overflow-x: auto; /* Scrollable on smaller screens */
+}
+
+.application-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.application-table th,
+.application-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(136, 146, 176, 0.1);
+}
+
+.application-table th {
+    color: var(--text-dim);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+/* Specific Column Widths */
+.col-company { width: 15%; }
+.col-date    { width: 10%; }
+.col-status  { width: 12%; }
+.col-tech    { width: 10%; }
+.col-notes   { width: 53%; color: var(--text-dim); font-size: 0.9rem; }
+
+/* Status Badges */
+.badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.badge.applied { background: rgba(100, 255, 218, 0.1); color: var(--accent); }
+.badge.interview { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid var(--accent); }
+.badge.ghosted { background: rgba(255, 0, 0, 0.05); color: #ff4d4d; }
+
+/* Row Hover Effects */
+.application-table tr:hover {
+    background: rgba(100, 255, 218, 0.03);
+}
+
+.active-row {
+    background: rgba(100, 255, 218, 0.05);
+}
+
+.ghosted-row {
+    opacity: 0.5;
+}
+
+/* Tag style update for table */
+.tag {
+    background: var(--bg-deep);
+    border: 1px solid var(--text-dim);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+}

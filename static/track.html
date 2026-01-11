@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>GhostedIn | Application Tracker</title>
+		<link rel="stylesheet" href="/static/track_styles.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="https://unpkg.com/htmx.org@2.0.1"></script>
+	</head>
+	<body>
+		<div class="night-sky">
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+		</div>
+
+		<main class="container">
+			<header>
+				<h1>GhostedIn<span class="dot">.</span></h1>
+				<p class="subtitle">Tracking the journey from 42 Amman to Hired.</p>
+			</header>
+
+			<section class="Statics">
+				<div class="stat-card">
+					<h3>Total Applied</h3>
+					<p class="stat-value">42</p>
+				</div>
+				<div class="stat-card">
+					<h3>Daily Goal</h3>
+					<div class="progress-bar">
+						<div class="progress" style="width: 70%"></div>
+					</div>
+					<p class="stat-sub">7 / 10 Applications</p>
+				</div>
+				<div class="stat-card">
+					<h3>Interview Rate</h3>
+					<p class="stat-value">12%</p>
+				</div>
+			</section>
+
+			<section class="Utils">
+				<input
+					type="text"
+					placeholder="Search companies or tech stacks..."
+					class="search-bar"
+				/>
+				<button hx-post="/applications">+ New Application</button>
+				<button class="btn-export">Export JSON</button>
+			</section>
+
+			<section class="Sheet">
+				<div class="sheet-wrapper">
+					<table class="application-table">
+						<thead>
+							<tr>
+								<th class="col-company">Company</th>
+								<th class="col-date">Applied</th>
+								<th class="col-status">Status</th>
+								<th class="col-tech">Tech</th>
+								<th class="col-notes">Notes</th>
+							</tr>
+						</thead>
+						<tbody
+							id="job-rows"
+							hx-get="/applications"
+							hx-trigger="load"
+							hx-swap="innerHTML"
+						>
+							<tr>
+								<td
+									colspan="5"
+									style="text-align: center; color: var(--accent)"
+								>
+									Loading...
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</main>
+	</body>
+</html>

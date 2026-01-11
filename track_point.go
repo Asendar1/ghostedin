@@ -12,7 +12,7 @@ import (
 var DB *sql.DB
 
 func GetRows(w http.ResponseWriter, r *http.Request) {
-    rows, err := DB.Query("SELECT company, strftime('%Y-%m-%d', applied_date), status FROM applications ORDER BY created_at DESC;")
+    rows, err := DB.Query("SELECT company, strftime('%Y-%m-%d', applied_date), status, role FROM applications ORDER BY created_at DESC;")
     if err != nil {
         http.Error(w, "Database query error", http.StatusInternalServerError)
         return
@@ -21,12 +21,13 @@ func GetRows(w http.ResponseWriter, r *http.Request) {
 
     for rows.Next() {
         t := template.Must(template.ParseFiles("templates/application_row.html"))
-        var company, applied_date, status string
-        rows.Scan(&company, &applied_date, &status)
+        var company, applied_date, status, role string
+        rows.Scan(&company, &applied_date, &status, &role)
         t.Execute(w, map[string]any{
             "Company":    company,
             "AppliedDate": applied_date,
             "Status":     status,
+            "Role":       role,
         })
     }
 }

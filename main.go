@@ -29,8 +29,12 @@ func main() {
 	})
 	r.Get("/home/", GetHomePage)
 
-	r.Get("/track", LoadSheet)
-	r.Get("/applications", GetRows)
+	r.Route("/track", func(r chi.Router) {
+		r.Get("/", LoadSheet)
+		r.Get("/applications", GetRows)
+		r.Get("/statistics", GetStatistics)
+	})
+
 
 
 	//#region Server start & Graceful Shutdown

@@ -1,6 +1,25 @@
-<tr>
-	<td class="col-company"><strong>{{.Company}}</strong></td>
+<tr class="application-row">
+	<td class="col-company">
+        {{.Company}}
+        {{if .JobUrl}}
+            <a href="{{.JobUrl}}" target="_blank" class="link-icon" title="View Job Post">↗</a>
+        {{end}}
+    </td>
+    <td class="col-role">{{.Role}}</td>
+	<td class="col-status" data-status="{{.Status}}">
+        <span class="status-badge">{{.Status}}</span>
+    </td>
 	<td class="col-date">{{.AppliedDate}}</td>
-	<td class="col-status">{{.Status}}</td>
-	<td>{{.Role}}</td>
+	<td class="col-tech">
+        {{if .TechStack}}
+            <span class="tech-tag">{{.TechStack}}</span>
+        {{end}}
+    </td>
+	<td class="col-notes">
+        {{if .Notes}}
+        <div style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--secondary);" title="{{.Notes}}">
+            {{.Notes}}
+        </div>
+        {{end}}
+    </td>
 </tr>

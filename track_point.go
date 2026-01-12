@@ -11,9 +11,49 @@ import (
 
 var DB *sql.DB
 
+func GetStatistics(w http.ResponseWriter, r *http.Request) {
+    var totalApplications, dailyApplications int
+    var interviewsRate float64
+
+    totalApplications = GetTotalApplications(DB)
+    dailyApplications = GetDailyApplication(DB)
+    if totalApplications > 0 {
+        interviewsRate = GetInterviewPercentage(DB)
+    } else {
+        interviewsRate = 0
+    }
+
+    // replace with template later
+    if totalApplications == -1 || dailyApplications == -1 || interviewsRate == -1 {
+        http.Error(w, "Database query error", http.StatusInternalServerError)
+        return
+    }
+
+    t := template.Must(template.ParseFiles("templates/statistics_cards.html"))
+    t.Execute(w, map[string]any{
+        "Total": totalApplications,
+        "AppliedToday": dailyApplications,
+        "InterviewRate": interviewsRate,
+    })
+}
+
 func GetRows(w http.ResponseWriter, r *http.Request) {
-    rows, err := DB.Query("SELECT company, strftime('%Y-%m-%d', applied_date), status, role FROM applications ORDER BY created_at DESC;")
+    rows, err := DB.Query(`
+        SELECT
+            company,
+            strftime('%Y-%m-%d', applied_date),
+            status,
+            role,
+            COALESCE(tech_stack, ''),
+            COALESCE(notes, ''),
+            COALESCE(job_url, ''),
+            COALESCE(resume_version, ''),
+            COALESCE(strftime('%Y-%m-%d', last_followup), '')
+        FROM applications
+        ORDER BY created_at DESC;
+    `)
     if err != nil {
+        log.Println("Database query error:", err)
         http.Error(w, "Database query error", http.StatusInternalServerError)
         return
     }
@@ -21,13 +61,33 @@ func GetRows(w http.ResponseWriter, r *http.Request) {
 
     for rows.Next() {
         t := template.Must(template.ParseFiles("templates/application_row.html"))
-        var company, applied_date, status, role string
-        rows.Scan(&company, &applied_date, &status, &role)
+        var company, applied_date, status, role, tech_stack, notes, job_url, resume_version, last_followup string
+        err := rows.Scan(
+            &company,
+            &applied_date,
+            &status,
+            &role,
+            &tech_stack,
+            &notes,
+            &job_url,
+            &resume_version,
+            &last_followup,
+        )
+        if err != nil {
+             log.Println("Error scanning row:", err)
+             continue
+        }
+
         t.Execute(w, map[string]any{
-            "Company":    company,
-            "AppliedDate": applied_date,
-            "Status":     status,
-            "Role":       role,
+            "Company":       company,
+            "AppliedDate":   applied_date,
+            "Status":        status,
+            "Role":          role,
+            "TechStack":     tech_stack,
+            "Notes":         notes,
+            "JobUrl":        job_url,
+            "ResumeVersion": resume_version,
+            "LastFollowup":  last_followup,
         })
     }
 }

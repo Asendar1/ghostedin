@@ -12,35 +12,32 @@
 		<script src="https://unpkg.com/htmx.org@2.0.1"></script>
 	</head>
 	<body>
-		<div class="night-sky">
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-		</div>
-
 		<main class="container">
 			<header>
 				<h1>GhostedIn<span class="dot">.</span></h1>
-				<p class="subtitle">Tracking the journey from 42 Amman to Hired.</p>
+				<p class="subtitle">Tracking the journey from Cooked to Hired.</p>
 			</header>
 
-			<section class="Statics">
+			<section
+				hx-get="/track/statistics"
+				hx-trigger="load"
+				hx-swap="innerHTML"
+				class="Statics"
+			>
 				<div class="stat-card">
 					<h3>Total Applied</h3>
-					<p class="stat-value">42</p>
+					<p class="stat-value">Loading...</p>
 				</div>
 				<div class="stat-card">
 					<h3>Daily Goal</h3>
 					<div class="progress-bar">
 						<div class="progress" style="width: 70%"></div>
 					</div>
-					<p class="stat-sub">7 / 10 Applications</p>
+					<p class="stat-sub">... / 10 Applications</p>
 				</div>
 				<div class="stat-card">
 					<h3>Interview Rate</h3>
-					<p class="stat-value">12%</p>
+					<p class="stat-value">Loading</p>
 				</div>
 			</section>
 
@@ -60,21 +57,22 @@
 						<thead>
 							<tr>
 								<th class="col-company">Company</th>
-								<th class="col-date">Applied</th>
+								<th class="col-role">Role</th>
 								<th class="col-status">Status</th>
-								<th class="col-tech">Tech</th>
+								<th class="col-date">Applied</th>
+								<th class="col-tech">Tech Stack</th>
 								<th class="col-notes">Notes</th>
 							</tr>
 						</thead>
 						<tbody
 							id="job-rows"
-							hx-get="/applications"
+							hx-get="/track/applications"
 							hx-trigger="load"
 							hx-swap="innerHTML"
 						>
 							<tr>
 								<td
-									colspan="5"
+									colspan="6"
 									style="text-align: center; color: var(--accent)"
 								>
 									Loading...

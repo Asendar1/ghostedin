@@ -1,15 +1,15 @@
 <div class="stat-card">
-	<h3>Total Applied</h3>
-	<p class="stat-value">{{.Total}}</p>
+    <h3>Total Applied</h3>
+    <p class="stat-value">{{.Total}}</p>
 </div>
 <div class="stat-card">
-	<h3>Daily Goal</h3>
-	<div class="progress-bar">
-		<div class="progress" style="width: 70%"></div>
-	</div>
-	<p class="stat-sub">{{.AppliedToday}} / 10 Applications</p>
+    <h3>Daily Goal</h3>
+    <div class="progress-bar">
+        <div class="progress" style="width: '{{.DailyProgress}}%';"></div>
+    </div>
+    <p class="stat-sub">{{.AppliedToday}} / 10 Applications</p>
 </div>
 <div class="stat-card">
-	<h3>Interview Rate</h3>
-	<p class="stat-value">{{.InterviewRate}}</p>
+    <h3>Interview Rate</h3>
+    <p class="stat-value" style="color: var(--accent);">{{.InterviewRate}}%</p>
 </div>

@@ -6,7 +6,7 @@
 		<title>GhostedIn | Application Tracker</title>
 		<link rel="stylesheet" href="/static/track_styles.css" />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
 			rel="stylesheet"
 		/>
 		<script src="https://unpkg.com/htmx.org@2.0.1"></script>
@@ -24,31 +24,17 @@
 				hx-swap="innerHTML"
 				class="Statics"
 			>
-				<div class="stat-card">
-					<h3>Total Applied</h3>
-					<p class="stat-value">Loading...</p>
-				</div>
-				<div class="stat-card">
-					<h3>Daily Goal</h3>
-					<div class="progress-bar">
-						<div class="progress" style="width: 70%"></div>
-					</div>
-					<p class="stat-sub">... / 10 Applications</p>
-				</div>
-				<div class="stat-card">
-					<h3>Interview Rate</h3>
-					<p class="stat-value">Loading</p>
-				</div>
+				<div class="stat-card"><h3>Loading...</h3></div>
 			</section>
 
 			<section class="Utils">
 				<input
 					type="text"
-					placeholder="Search companies or tech stacks..."
+					placeholder="Search companies..."
 					class="search-bar"
 				/>
 				<button
-					hx-post="/track/quick-add-row"
+					hx-get="/track/quick-add-row"
 					hx-target="#quick-add-container"
 					hx-swap="innerHTML"
 				>
@@ -62,15 +48,15 @@
 					<table class="application-table">
 						<thead>
 							<tr>
-								<th class="col-company">Company</th>
-								<th class="col-role">Role</th>
-								<th class="col-status">Status</th>
-								<th class="col-date">Applied</th>
-								<th class="col-url">Job URL</th>
-								<th class="col-notes">Notes</th>
-								<th class="col-actions">Actions</th>
+								<th>Company</th>
+								<th>Role</th>
+								<th>Status</th>
+								<th>Date Applied</th>
+								<th>Notes</th>
+								<th>Actions</th>
 							</tr>
 						</thead>
+						<tbody id="quick-add-error"></tbody>
 						<tbody id="quick-add-container"></tbody>
 						<tbody
 							id="job-rows"
@@ -81,9 +67,13 @@
 							<tr>
 								<td
 									colspan="6"
-									style="text-align: center; color: var(--accent)"
+									style="
+										text-align: center;
+										color: var(--accent);
+										padding: 40px;
+									"
 								>
-									Loading...
+									Fetching your applications...
 								</td>
 							</tr>
 						</tbody>

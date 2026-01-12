@@ -5,7 +5,7 @@
     --border-color: #27272a;
     --primary: #f8fafc;
     --secondary: #a1a1aa;
-    --accent: #2dd4bf; /* Modern teal */
+    --accent: #2dd4bf;
     --accent-glow: rgba(45, 212, 191, 0.2);
     --success: #34d399;
     --warning: #fbbf24;
@@ -24,16 +24,13 @@ body {
     line-height: 1.5;
 }
 
-/* Layout Containers */
 .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 60px 24px;
 }
 
-header {
-    margin-bottom: 60px;
-}
+header { margin-bottom: 60px; }
 
 h1 {
     font-size: 2.5rem;
@@ -46,16 +43,8 @@ h1 {
     display: inline-block;
 }
 
-.dot {
-    color: var(--accent);
-    -webkit-text-fill-color: var(--accent);
-}
-
-.subtitle {
-    color: var(--secondary);
-    font-size: 1.1rem;
-    font-weight: 400;
-}
+.dot { color: var(--accent); -webkit-text-fill-color: var(--accent); }
+.subtitle { color: var(--secondary); font-size: 1.1rem; }
 
 /* Statics Section */
 .Statics {
@@ -76,24 +65,12 @@ h1 {
 .stat-card:hover {
     border-color: var(--secondary);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-}
-
-.stat-card h3 {
-    margin: 0;
-    font-size: 0.875rem;
-    color: var(--secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
 }
 
 .stat-value {
     font-size: 2.25rem;
     font-weight: 700;
-    color: var(--primary);
     margin: 12px 0 0 0;
-    letter-spacing: -0.02em;
 }
 
 /* Utils Section */
@@ -101,7 +78,6 @@ h1 {
     display: flex;
     gap: 16px;
     margin-bottom: 24px;
-    align-items: center;
 }
 
 .search-bar {
@@ -111,196 +87,131 @@ h1 {
     padding: 12px 16px;
     border-radius: 8px;
     color: var(--primary);
-    font-family: inherit;
-    font-size: 0.95rem;
-    transition: border-color 0.2s;
 }
 
-.search-bar:focus {
-    outline: none;
-    border-color: var(--accent);
-}
+.search-bar:focus { outline: none; border-color: var(--accent); }
 
 button {
     padding: 12px 24px;
     border-radius: 8px;
-    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
+    transition: 0.2s;
     border: 1px solid transparent;
 }
 
-button:not(.btn-export) {
-    background: var(--primary);
-    color: var(--bg-main);
-}
+button:not(.btn-export) { background: var(--primary); color: var(--bg-main); }
+.btn-export { background: transparent; border: 1px solid var(--border-color); color: var(--primary); }
 
-button:not(.btn-export):hover {
-    background: #fff;
-    transform: translateY(-1px);
-}
-
-.btn-export {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--primary);
-}
-
-.btn-export:hover {
-    border-color: var(--secondary);
-    background: var(--bg-hover);
-}
-
-/* Sheet / Table */
+/* Table Styling */
 .sheet-wrapper {
     background: var(--bg-card);
     border-radius: 12px;
     border: 1px solid var(--border-color);
-    margin-top: 24px;
-    width: 100%;
-    overflow-x: hidden;          /* no horizontal scrollbar */
+    overflow: hidden;
 }
 
 .application-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.95rem;
-    text-align: left;
-    table-layout: fixed;         /* table can’t grow wider than wrapper */
-}
-
-/* Column widths (sum = 100%) */
-.application-table th.col-company { width: 18%; }
-.application-table th.col-role    { width: 16%; }
-.application-table th.col-status  { width: 13%; }
-.application-table th.col-date    { width: 13%; }
-.application-table th.col-url     { width: 17%; }
-.application-table th.col-notes   { width: 13%; }
-.application-table th.col-actions { width: 10%; text-align: right; }
-
-/* Keep inputs from blowing up the table */
-.application-table input,
-.application-table select {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-/* Compact buttons in Actions column */
-.application-table button {
-    padding: 6px 10px;
-    font-size: 0.8rem;
-    min-width: 0;
-}
-
-#quick-add-row td:last-child {
-    white-space: nowrap;
-    text-align: right;
+    table-layout: fixed;
 }
 
 .application-table th {
     padding: 16px 24px;
     background: var(--bg-hover);
     color: var(--secondary);
-    font-weight: 600;
-    font-size: 0.85rem;
+    text-align: left;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .application-table td {
     padding: 16px 24px;
     border-bottom: 1px solid var(--border-color);
     color: var(--secondary);
-    vertical-align: middle;
+    word-wrap: break-word;
 }
 
-.application-table tr:last-child td {
-    border-bottom: none;
-}
-
-.application-table tr:hover {
-    background: rgba(255,255,255,0.02);
-}
-
-/* Table Columns Formatting */
-.col-company {
+/* Input styles for Quick Add */
+.application-table input, .application-table select {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
     color: var(--primary);
-    font-weight: 600;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
 }
 
-.col-role {
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.link-icon {
     color: var(--secondary);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    opacity: 0.6;
 }
 
-.col-date {
-    font-variant-numeric: tabular-nums;
+.link-icon:hover {
+    color: var(--accent);
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.notes-truncate {
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: var(--secondary);
     font-size: 0.9rem;
 }
 
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.05); /* Default fallback */
+/* Ensure the action button is subtle */
+.btn-icon-only {
+    background: transparent !important;
+    border: none !important;
+    color: var(--secondary);
+    padding: 4px 8px !important;
 }
 
-/* Specific status styling based on classes added in template */
+.btn-icon-only:hover {
+    color: var(--primary);
+}
+
+/* Core Truncation Logic */
+.truncate-text {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    cursor: help; /* Visual cue that more text exists on hover */
+}
+
+/* Ensure the table doesn't grow horizontally */
+.application-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+/* Adjust column spacing for the Edit button */
+.application-table td:last-child {
+    text-align: right;
+    width: 60px;
+}
+
 .status-applied { color: var(--secondary); background: rgba(255,255,255,0.05); }
 .status-interview { color: var(--accent); background: rgba(45, 212, 191, 0.1); }
 .status-rejected { color: var(--danger); background: rgba(248, 113, 113, 0.1); }
 .status-offer { color: var(--success); background: rgba(52, 211, 153, 0.1); }
 
+.progress-bar { height: 6px; background: var(--bg-hover); border-radius: 3px; margin: 15px 0 8px; }
+.progress { height: 100%; background: var(--accent); border-radius: 3px; }
 
-.tech-tag {
-    font-size: 0.75rem;
-    padding: 2px 8px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    margin-right: 4px;
-    display: inline-block;
-    color: var(--secondary);
-}
-
-.link-icon {
-    text-decoration: none;
-    color: var(--secondary);
-    margin-left: 6px;
-    font-size: 0.8em;
-    opacity: 0.5;
-    transition: opacity 0.2s;
-}
-
-.link-icon:hover {
-    opacity: 1;
-    color: var(--accent);
-}
-
-/* Progress bar in stat card */
-.progress-bar {
-    height: 6px;
-    background: var(--bg-hover);
-    border-radius: 3px;
-    margin: 15px 0 8px 0;
-    overflow: hidden;
-}
-
-.progress {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 3px;
-}
-
-.stat-sub {
-    font-size: 0.85rem;
-    color: var(--secondary);
-    margin: 0;
-}

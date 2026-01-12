@@ -1,20 +1,47 @@
 <tr class="application-row">
 	<td class="col-company">
-        {{.Company}}
-        {{if .JobUrl}}
-            <a href="{{.JobUrl}}" target="_blank" class="link-icon" title="View Job Post">↗</a>
-        {{end}}
-    </td>
-    <td class="col-role">{{.Role}}</td>
-	<td class="col-status" data-status="{{.Status}}">
-        <span class="status-badge">{{.Status}}</span>
-    </td>
+		<div style="display: flex; align-items: center; gap: 8px; overflow: hidden">
+			<span class="truncate-text" title="{{.Company}}">{{.Company}}</span>
+			{{if .JobUrl}}
+			<a
+				href="http://{{.JobUrl}}"
+				target="_blank"
+				class="link-icon"
+				title="View Job Listing: {{.JobUrl}}"
+			>
+				<svg
+					width="14"
+					height="14"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path
+						d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+					></path>
+					<polyline points="15 3 21 3 21 9"></polyline>
+					<line x1="10" y1="14" x2="21" y2="3"></line>
+				</svg>
+			</a>
+			{{end}}
+		</div>
+	</td>
+	<td class="col-role">
+		<div class="truncate-text" title="{{.Role}}">{{.Role}}</div>
+	</td>
 	<td class="col-date">{{.CreatedAt}}</td>
+	<td class="col-status">
+		<span class="status-badge status-{{.Status}}">{{.Status}}</span>
+	</td>
 	<td class="col-notes">
-        {{if .Notes}}
-        <div style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--secondary);" title="{{.Notes}}">
-            {{.Notes}}
-        </div>
-        {{end}}
-    </td>
+		<div class="truncate-text" title="{{.Notes}}">{{.Notes}}</div>
+	</td>
+	<td>
+		<button style="padding: 4px 8px; font-size: 0.7rem" class="btn-export">
+			Edit
+		</button>
+	</td>
 </tr>

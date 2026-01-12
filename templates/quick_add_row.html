@@ -1,34 +1,70 @@
 <tr id="quick-add-row">
-    <td><input type="text" placeholder="Company Name" required autofocus></td>
-    <td><input type="date" required></td>
-    <td><input type="text" placeholder="Role" required></td>
-    <td>
-        <select required>
-            <option value="" disabled>Select Status</option>
-            <option value="Applied" selected>Applied</option>
-            <option value="Phone Screen">Phone Screen</option>
-            <option value="Interview">Interview</option>
-            <option value="Offer">Offer</option>
-            <option value="Rejected">Rejected</option>
-        </select>
-    </td>
-    <td><input type="text" placeholder="Job URL"></td>
-    <td><input type="text" placeholder="Notes"></td>
-	<td>
-		<button class="btn-save">Save</button>
-		<button class="btn-cancel">Cancel</button>
+	<td class="quick-company-btn">
+		<input
+			type="text"
+			name="company"
+			placeholder="Company Name"
+			required
+			autofocus
+		/>
+	</td>
+	<td class="quick-role-btn">
+		<input
+			type="text"
+			name="role"
+			placeholder="e.g. Backend Engineer"
+			required
+		/>
+	</td>
+	<td class="quick-date-btn">
+		<input type="date" name="date" id="quick-add-date" />
+	</td>
+	<td class="quick-status-btn">
+		<select name="status">
+			<option value="Applied" selected>Applied</option>
+			<option value="Interview">Interview</option>
+			<option value="Offer">Offer</option>
+			<option value="Rejected">Rejected</option>
+		</select>
+	</td>
+	<td class="quick-jobURL-btn">
+		<div style="display: flex; flex-direction: column; gap: 4px">
+			<input type="url" name="job_url" placeholder="Paste Job Link Here" />
+			<input type="text" name="notes" placeholder="Notes (Optional)" />
+		</div>
+	</td>
+	<td class="quick-action-btn">
+		<div style="display: flex; gap: 4px; justify-content: flex-end">
+			<button
+				type="button"
+				hx-post="/track/add-application"
+				hx-include="closest tr"
+				hx-target="#job-rows"
+				hx-swap="afterbegin"
+				hx-on::after-request="
+                if (event.detail.xhr.status === 422) {
+                    htmx.swap('#quick-add-error', event.detail.xhr.responseText, 'innerHTML');
+                } else if (event.detail.successful) {
+                    document.getElementById('quick-add-row')?.remove();
+					document.getElementById('quick-add-error').innerHTML = '';
+                    htmx.trigger('#stats-container', 'load');
+                }"
+			>
+				Save
+			</button>
+			<button
+				type="button"
+				onclick="this.closest('tr').remove(); document.getElementById('quick-add-error').innerHTML='';"
+				class="btn-export"
+			>
+				Cancel
+			</button>
+		</div>
 	</td>
 </tr>
 
 <script>
-(function () {
-    const row = document.getElementById("quick-add-row");
-    if (!row) return;
-
-    const dateInput = row.querySelector('input[type="date"]');
-    if (!dateInput || dateInput.value) return;
-
-    const today = new Date().toISOString().split("T")[0];
-    dateInput.value = today;
-})();
+	document.getElementById("quick-add-date").value = new Date()
+		.toISOString()
+		.split("T")[0];
 </script>

@@ -47,7 +47,13 @@
 					placeholder="Search companies or tech stacks..."
 					class="search-bar"
 				/>
-				<button hx-post="/applications">+ New Application</button>
+				<button
+					hx-post="/track/quick-add-row"
+					hx-target="#quick-add-container"
+					hx-swap="innerHTML"
+				>
+					+ New Application
+				</button>
 				<button class="btn-export">Export JSON</button>
 			</section>
 
@@ -60,10 +66,12 @@
 								<th class="col-role">Role</th>
 								<th class="col-status">Status</th>
 								<th class="col-date">Applied</th>
-								<th class="col-tech">Tech Stack</th>
+								<th class="col-url">Job URL</th>
 								<th class="col-notes">Notes</th>
+								<th class="col-actions">Actions</th>
 							</tr>
 						</thead>
+						<tbody id="quick-add-container"></tbody>
 						<tbody
 							id="job-rows"
 							hx-get="/track/applications"

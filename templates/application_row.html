@@ -9,12 +9,7 @@
 	<td class="col-status" data-status="{{.Status}}">
         <span class="status-badge">{{.Status}}</span>
     </td>
-	<td class="col-date">{{.AppliedDate}}</td>
-	<td class="col-tech">
-        {{if .TechStack}}
-            <span class="tech-tag">{{.TechStack}}</span>
-        {{end}}
-    </td>
+	<td class="col-date">{{.CreatedAt}}</td>
 	<td class="col-notes">
         {{if .Notes}}
         <div style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--secondary);" title="{{.Notes}}">

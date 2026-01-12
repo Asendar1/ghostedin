@@ -33,6 +33,8 @@ func main() {
 		r.Get("/", LoadSheet)
 		r.Get("/applications", GetRows)
 		r.Get("/statistics", GetStatistics)
+
+		r.Post("/quick-add-row", RenderQuickAddRow)
 	})
 
 

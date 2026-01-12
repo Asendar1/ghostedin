@@ -41,14 +41,11 @@ func GetRows(w http.ResponseWriter, r *http.Request) {
     rows, err := DB.Query(`
         SELECT
             company,
-            strftime('%Y-%m-%d', applied_date),
+            strftime('%Y-%m-%d', created_at),
             status,
             role,
-            COALESCE(tech_stack, ''),
             COALESCE(notes, ''),
-            COALESCE(job_url, ''),
-            COALESCE(resume_version, ''),
-            COALESCE(strftime('%Y-%m-%d', last_followup), '')
+            COALESCE(job_url, '')
         FROM applications
         ORDER BY created_at DESC;
     `)
@@ -61,17 +58,14 @@ func GetRows(w http.ResponseWriter, r *http.Request) {
 
     for rows.Next() {
         t := template.Must(template.ParseFiles("templates/application_row.html"))
-        var company, applied_date, status, role, tech_stack, notes, job_url, resume_version, last_followup string
+        var company, status, role, notes, job_url, created_at string
         err := rows.Scan(
             &company,
-            &applied_date,
             &status,
+            &created_at,
             &role,
-            &tech_stack,
             &notes,
             &job_url,
-            &resume_version,
-            &last_followup,
         )
         if err != nil {
              log.Println("Error scanning row:", err)
@@ -80,14 +74,11 @@ func GetRows(w http.ResponseWriter, r *http.Request) {
 
         t.Execute(w, map[string]any{
             "Company":       company,
-            "AppliedDate":   applied_date,
             "Status":        status,
             "Role":          role,
-            "TechStack":     tech_stack,
             "Notes":         notes,
             "JobUrl":        job_url,
-            "ResumeVersion": resume_version,
-            "LastFollowup":  last_followup,
+            "CreatedAt":     created_at,
         })
     }
 }
@@ -106,12 +97,8 @@ func InitDB() {
             role TEXT NOT NULL,
             applied_date DATE NOT NULL DEFAULT (date()),
             status TEXT NOT NULL DEFAULT 'Applied',
-            tech_stack TEXT,
             notes TEXT,
             job_url TEXT,
-            resume_version TEXT,
-            last_followup DATE,
-            response_date DATE,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
@@ -123,4 +110,8 @@ func InitDB() {
 
 func LoadSheet(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "/static/track.html")
+}
+
+func CreateApplication(w http.ResponseWriter, r *http.Request) {
+
 }

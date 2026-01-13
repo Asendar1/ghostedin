@@ -32,10 +32,14 @@ func main() {
 	r.Route("/track", func(r chi.Router) {
 		r.Get("/", LoadSheet)
 		r.Get("/applications", GetRows)
+		r.Get("/applications/{id}", GetRowByID)
 		r.Get("/statistics", GetStatistics)
 		r.Get("/quick-add-row", RenderQuickAddRow)
+		r.Get("/applications/edit/{id}", RenderEditRow)
 
 		r.Post("/add-application", AddRow)
+
+		r.Put("/applications/{id}", UpdateRow)
 
 		r.Delete("/applications/{id}", DeleteRow)
 	})

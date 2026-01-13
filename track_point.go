@@ -123,3 +123,53 @@ func DeleteRow(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "DataBase error. Couldn't Delete", http.StatusInternalServerError)
     }
 }
+
+func RenderEditRow(w http.ResponseWriter, r *http.Request) {
+    id := chi.URLParam(r, "id")
+    var company, role, status, notes, jobURL, createdAt string
+    err := DB.QueryRow(`
+        SELECT company, role, status, notes, job_url, strftime('%Y-%m-%d', created_at)
+        FROM applications
+        WHERE id = ?;
+    `, id).Scan(&company, &role, &status, &notes, &jobURL, &createdAt)
+    if err != nil {
+        http.Error(w, "Failed to retrieve row from database", http.StatusInternalServerError)
+        return
+    }
+
+    t := template.Must(template.ParseFiles("templates/edit_application_row.html"))
+    t.Execute(w, map[string]any{
+        "ID":      id,
+        "Company": company,
+        "Role":    role,
+        "Status":  status,
+        "Notes":   notes,
+        "JobUrl":  jobURL,
+        "CreatedAt": createdAt,
+    })
+}
+
+func GetRowByID(w http.ResponseWriter, r *http.Request) {
+    id := chi.URLParam(r, "id")
+    var company, role, status, notes, jobURL, createdAt string
+    err := DB.QueryRow(`
+        SELECT company, role, status, notes, job_url, strftime('%Y-%m-%d', created_at)
+        FROM applications
+        WHERE id = ?;
+    `, id).Scan(&company, &role, &status, &notes, &jobURL, &createdAt)
+    if err != nil {
+        http.Error(w, "Failed to retrieve row from database", http.StatusInternalServerError)
+        return
+    }
+
+    t := template.Must(template.ParseFiles("templates/application_row.html"))
+    t.Execute(w, map[string]any{
+        "ID":        id,
+        "Company":   company,
+        "Role":      role,
+        "Status":    status,
+        "Notes":     notes,
+        "JobUrl":    jobURL,
+        "CreatedAt": createdAt,
+    })
+}

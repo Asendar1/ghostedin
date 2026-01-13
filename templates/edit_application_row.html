@@ -1,0 +1,44 @@
+<tr id="row-{{.ID}}">
+    <td><input type="text" name="company" value="{{.Company}}" required></td>
+    <td><input type="text" name="role" value="{{.Role}}" required></td>
+    <td>
+		<select name="status">
+			<option value="Applied" {{if eq .Status "Applied"}}selected{{end}}>Applied</option>
+            <option value="Interview" {{if eq .Status "Interview"}}selected{{end}}>Interview</option>
+            <option value="Offer" {{if eq .Status "Offer"}}selected{{end}}>Offer</option>
+            <option value="Rejected" {{if eq .Status "Rejected"}}selected{{end}}>Rejected</option>
+        </select>
+    </td>
+	<td><input type="date" name="date" value="{{.CreatedAt}}"></td>
+    <td>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+            <input type="url" name="job_url" value="{{.JobUrl}}">
+            <input type="text" name="notes" value="{{.Notes}}">
+        </div>
+    </td>
+    <td style="text-align: right;">
+        <div style="display: flex; gap: 4px; justify-content: flex-end">
+            <button type="button"
+                hx-put="/track/applications/{{.ID}}"
+                hx-include="closest tr"
+                hx-target="#row-{{.ID}}"
+                hx-swap="outerHTML"
+                hx-on::after-request="if(event.detail.successful) htmx.trigger('.Statics', 'applicationsChanged');">
+                Save
+            </button>
+            <button type="button"
+                hx-get="/track/applications/{{.ID}}"
+                hx-target="#row-{{.ID}}"
+                hx-swap="outerHTML"
+                class="btn-export">
+                Cancel
+            </button>
+        </div>
+    </td>
+</tr>
+
+<script>
+	document.getElementById("quick-add-date").value = new Date()
+		.toISOString()
+		.split("T")[0];
+</script>

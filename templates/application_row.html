@@ -1,4 +1,4 @@
-<tr class="application-row">
+<tr class="application-row" id="row-{{.ID}}">
 	<td class="col-company">
 		<div style="display: flex; align-items: center; gap: 8px; overflow: hidden">
 			<span class="truncate-text" title="{{.Company}}">{{.Company}}</span>
@@ -40,7 +40,11 @@
 		<div class="truncate-text" title="{{.Notes}}">{{.Notes}}</div>
 	</td>
 	<td class="col-actions">
-		<button style="padding: 4px 8px; font-size: 0.7rem" class="btn-export">
+		<button style="padding: 4px 8px; font-size: 0.7rem" class="btn-export"
+			hx-get="/track/applications/edit/{{.ID}}"
+			hx-target="#row-{{.ID}}"
+			hx-swap="outerHTML"
+		>
 			Edit
 		</button>
 		<button

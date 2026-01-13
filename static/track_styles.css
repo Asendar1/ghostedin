@@ -207,6 +207,11 @@ button:not(.btn-export) { background: var(--primary); color: var(--bg-main); }
     width: 60px;
 }
 
+button .btn-delete {
+    background-color: red;
+    color: var(--danger);
+}
+
 .status-applied { color: var(--secondary); background: rgba(255,255,255,0.05); }
 .status-interview { color: var(--accent); background: rgba(45, 212, 191, 0.1); }
 .status-rejected { color: var(--danger); background: rgba(248, 113, 113, 0.1); }

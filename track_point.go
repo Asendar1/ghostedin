@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	_ "modernc.org/sqlite"
 )
 
@@ -40,6 +41,7 @@ func GetStatistics(w http.ResponseWriter, r *http.Request) {
 func GetRows(w http.ResponseWriter, r *http.Request) {
     rows, err := DB.Query(`
         SELECT
+            id,
             company,
             strftime('%Y-%m-%d', created_at),
             status,
@@ -58,8 +60,9 @@ func GetRows(w http.ResponseWriter, r *http.Request) {
 
     for rows.Next() {
         t := template.Must(template.ParseFiles("templates/application_row.html"))
-        var company, status, role, notes, job_url, created_at string
+        var id, company, status, role, notes, job_url, created_at string
         err := rows.Scan(
+            &id,
             &company,
             &status,
             &created_at,
@@ -73,6 +76,7 @@ func GetRows(w http.ResponseWriter, r *http.Request) {
         }
 
         t.Execute(w, map[string]any{
+            "ID":            id,
             "Company":       company,
             "Status":        status,
             "Role":          role,
@@ -112,6 +116,10 @@ func LoadSheet(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "/static/track.html")
 }
 
-func CreateApplication(w http.ResponseWriter, r *http.Request) {
-
+func DeleteRow(w http.ResponseWriter, r *http.Request) {
+    id := chi.URLParam(r, "id")
+    _, err := DB.Exec("DELETE from applications WHERE id=?", id)
+    if err != nil {
+        http.Error(w, "DataBase error. Couldn't Delete", http.StatusInternalServerError)
+    }
 }

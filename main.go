@@ -36,6 +36,8 @@ func main() {
 		r.Get("/quick-add-row", RenderQuickAddRow)
 
 		r.Post("/add-application", AddRow)
+
+		r.Delete("/applications/{id}", DeleteRow)
 	})
 
 

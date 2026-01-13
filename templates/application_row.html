@@ -39,9 +39,15 @@
 	<td class="col-notes">
 		<div class="truncate-text" title="{{.Notes}}">{{.Notes}}</div>
 	</td>
-	<td>
+	<td class="col-actions">
 		<button style="padding: 4px 8px; font-size: 0.7rem" class="btn-export">
 			Edit
 		</button>
+		<button class="btn-delete"
+				hx-delete="/track/applications/{{.ID}}"
+				hx-confirm="Are you sure?"
+				hx-target="closest tr"
+				hx-on::htmx::after-request="style.display='none'; htmx.trigger('.Statics', 'applicationsChanged');"
+		>Delete</button>
 	</td>
 </tr>

@@ -40,8 +40,16 @@ func AddRow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var id int64
+	err = DB.QueryRow("SELECT last_insert_rowid();").Scan(&id)
+	if err != nil {
+		http.Error(w, "Failed to retrieve new row ID", http.StatusInternalServerError)
+		return
+	}
+
 	t := template.Must(template.ParseFiles("templates/application_row.html"))
 	t.Execute(w, map[string]any{
+		"ID":        id,
 		"Company":   company,
 		"Role":      role,
 		"Status":    status,

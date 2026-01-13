@@ -45,9 +45,9 @@
                 if (event.detail.xhr.status === 422) {
                     htmx.swap('#quick-add-error', event.detail.xhr.responseText, 'innerHTML');
                 } else if (event.detail.successful) {
+                    htmx.trigger('.Statics', 'applicationsChanged');
                     document.getElementById('quick-add-row')?.remove();
 					document.getElementById('quick-add-error').innerHTML = '';
-                    htmx.trigger('#stats-container', 'load');
                 }"
 			>
 				Save

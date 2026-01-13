@@ -43,11 +43,18 @@
 		<button style="padding: 4px 8px; font-size: 0.7rem" class="btn-export">
 			Edit
 		</button>
-		<button class="btn-delete"
-				hx-delete="/track/applications/{{.ID}}"
-				hx-confirm="Are you sure?"
-				hx-target="closest tr"
-				hx-on::htmx::after-request="style.display='none'; htmx.trigger('.Statics', 'applicationsChanged');"
-		>Delete</button>
+		<button
+			class="btn-delete"
+			hx-delete="/track/applications/{{.ID}}"
+			hx-confirm="Are you sure?"
+			hx-on::after-request="
+        	if (event.detail.successful) {
+        	    this.closest('tr').remove();
+        	    htmx.trigger('.Statics', 'applicationsChanged');
+        	}
+    		"
+		>
+			Delete
+		</button>
 	</td>
 </tr>

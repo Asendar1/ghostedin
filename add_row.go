@@ -67,6 +67,7 @@ func UpdateRow(w http.ResponseWriter, r *http.Request) {
 	status = r.FormValue("status")
 	notes = r.FormValue("notes")
 	jobURL = r.FormValue("job_url")
+	date := r.FormValue("date")
 
 	if company == "" || role == "" {
 		w.WriteHeader(http.StatusUnprocessableEntity)
@@ -88,15 +89,26 @@ func UpdateRow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var date string
-	err = DB.QueryRow(`
+	if date != "" {
+		_, err = DB.Exec(`
+			UPDATE applications
+			SET created_at = ?
+			WHERE id = ?;
+		`, date, id)
+		if err != nil {
+			http.Error(w, "Failed to update date in database", http.StatusInternalServerError)
+			return
+		}
+	} else {
+		err = DB.QueryRow(`
 		SELECT strftime('%Y-%m-%d', created_at)
 		FROM applications
 		WHERE id = ?;
 	`, id).Scan(&date)
-	if err != nil {
-		http.Error(w, "Failed to retrieve updated row from database", http.StatusInternalServerError)
-		return
+		if err != nil {
+			http.Error(w, "Failed to retrieve updated row from database", http.StatusInternalServerError)
+			return
+		}
 	}
 
 	t := template.Must(template.ParseFiles("templates/application_row.html"))

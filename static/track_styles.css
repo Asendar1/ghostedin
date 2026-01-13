@@ -120,10 +120,25 @@ button:not(.btn-export) {
 	border: 1px solid var(--border-color);
 	color: var(--primary);
 }
-.btn-delete {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--danger);
+/* Target the button directly, avoiding the space in the selector */
+button.btn-delete {
+	background: transparent;
+	border: 1px solid var(--border-color);
+	color: var(--danger);
+	transition: all 0.3s ease; /* Smooth transition for the gradient */
+}
+
+button.btn-delete:hover {
+	background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 50%, #b91c1c 100%);
+	color: #fee2e2;
+	border-color: #ef4444;
+	box-shadow: 0 0 15px rgba(248, 113, 113, 0.3); /* Subtle glow effect */
+}
+
+.btn-export:hover {
+    background: linear-gradient(135deg, #0d3b36 0%, #134e4a 100%);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 /* Table Styling */

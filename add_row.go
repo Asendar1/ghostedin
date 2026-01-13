@@ -19,8 +19,6 @@ func AddRow(w http.ResponseWriter, r *http.Request) {
 	notes = r.FormValue("notes")
 	jobURL = r.FormValue("job_url")
 
-	fmt.Printf("Received new application: Company=%s, Role=%s, Status=%s, Notes=%s, JobURL=%s\n", company, role, status, notes, jobURL)
-
 	if company == "" || role == "" {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		fmt.Fprint(w, `<tr id="quick-add-row-error">

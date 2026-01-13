@@ -43,8 +43,8 @@ func GetRows(w http.ResponseWriter, r *http.Request) {
         SELECT
             id,
             company,
-            strftime('%Y-%m-%d', created_at),
             status,
+            strftime('%Y-%m-%d', created_at),
             role,
             COALESCE(notes, ''),
             COALESCE(job_url, '')
